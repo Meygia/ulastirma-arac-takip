@@ -42,7 +42,7 @@ Yerel veriyi taşımak için (isteğe bağlı):
 turso db shell your-db-name < schema.sql
 ```
 
-Prisma migration'lar build sırasında otomatik uygulanır (`npm run build`).
+Prisma migration'lar build sırasında Turso'ya HTTP ile uygulanır (`scripts/prebuild-db.mjs`). Yerelde `file:./dev.db` için `prisma migrate deploy` çalışır.
 
 ## 3. Vercel deploy
 
