@@ -1,8 +1,12 @@
 import { createClient } from "@libsql/client";
 import { execSync } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
+import { config as loadEnv } from "dotenv";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
+
+loadEnv({ path: ".env" });
+loadEnv({ path: ".env.local", override: true });
 
 const databaseUrl = (process.env.DATABASE_URL ?? "")
   .trim()
