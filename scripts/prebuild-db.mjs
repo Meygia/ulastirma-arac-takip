@@ -4,13 +4,24 @@ import { createHash, randomUUID } from "node:crypto";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-const databaseUrl = process.env.DATABASE_URL ?? "";
+const databaseUrl = (process.env.DATABASE_URL ?? "")
+  .trim()
+  .replace(/^["']|["']$/g, "");
+
+function isLocalDatabase(url) {
+  return url.startsWith("file:");
+}
 
 async function applyTursoMigrations() {
   const authToken = process.env.TURSO_AUTH_TOKEN;
 
   if (!authToken) {
     console.error("TURSO_AUTH_TOKEN is required for Turso migrations.");
+    process.exit(1);
+  }
+
+  if (!databaseUrl) {
+    console.error("DATABASE_URL is required for Turso migrations.");
     process.exit(1);
   }
 
@@ -73,9 +84,10 @@ async function applyTursoMigrations() {
   console.log("Turso migrations complete.");
 }
 
-if (databaseUrl.startsWith("libsql://")) {
-  await applyTursoMigrations();
-} else {
+if (isLocalDatabase(databaseUrl)) {
   console.log("Local SQLite detected, running prisma migrate deploy...");
   execSync("npx prisma migrate deploy", { stdio: "inherit" });
+} else {
+  console.log("Remote Turso database detected, applying migrations...");
+  await applyTursoMigrations();
 }
