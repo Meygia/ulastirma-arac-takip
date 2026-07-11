@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Destek Hizmetleri Daire Başkanlığı araç kontrol ve yönetim paneli",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{
