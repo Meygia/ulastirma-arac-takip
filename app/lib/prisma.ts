@@ -26,12 +26,18 @@ function createPrismaClient() {
   const authToken = normalizeEnv(process.env.TURSO_AUTH_TOKEN) || undefined;
   const remote = isRemoteDatabase(url);
 
-  const Adapter = remote ? PrismaLibSqlWeb : PrismaLibSqlNode;
-  const adapter = new Adapter({
-    url,
-    authToken,
-  });
+  if (remote) {
+    if (!authToken) {
+      throw new Error(
+        "TURSO_AUTH_TOKEN eksik. Vercel Settings → Environment Variables bölümünü kontrol edin.",
+      );
+    }
 
+    const adapter = new PrismaLibSqlWeb({ url, authToken });
+    return new PrismaClient({ adapter });
+  }
+
+  const adapter = new PrismaLibSqlNode({ url, authToken });
   return new PrismaClient({ adapter });
 }
 
