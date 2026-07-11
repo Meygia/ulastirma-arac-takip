@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Arac {
+  id                Int         @id @default(autoincrement())
+  plaka             String      @unique
+  marka             String
+  model             String
+  yil               Int
+  sasiNo            String?     @unique
+  kilometre         Int         @default(0)
+  aktifGorevdeMi    Boolean     @default(false)
+  bakimdaMi         Boolean     @default(false)
+  bakimTarihi       DateTime?
+  bakimServisi      String?
+  bakimKilometresi  Int?
+  bakimAciklamasi   String?
+  lastikTuru          String?
+  lastikTarihi        DateTime?
+  lastikDegisimYeri   String?
+  lastikMuhafazaYeri  String?
+  atananKisi        String?
+  atananKisiTelefon String?
+  olusturulmaTarihi DateTime    @default(now())
+  guncellenmeTarihi DateTime    @updatedAt
+  hasarlar          Hasar[]
+  parcalar          AracParca[]
+  bilgiGecmisi      AracBilgiGecmisi[]
+  belgeler          AracBelgesi[]
+  arananFirmalar    AracFirma[]
+}
+
+model AracBilgiGecmisi {
+  id                 Int       @id @default(autoincrement())
+  aracId             Int
+  tur                String
+  tarih              DateTime?
+  kilometre          Int?
+  servisAdi          String?
+  aciklama           String?
+  lastikTuru         String?
+  kayitTarihi        DateTime  @default(now())
+  arac               Arac      @relation(fields: [aracId], references: [id], onDelete: Cascade)
+
+  @@index([aracId, tur])
+}
+
+model AracParca {
+  id               Int       @id @default(autoincrement())
+  aracId           Int
+  kategori         String
+  sonDegisimTarihi DateTime?
+  sonDegisimKm     Int?
+  servisAdi        String?
+  notlar           String?
+  arac             Arac      @relation(fields: [aracId], references: [id], onDelete: Cascade)
+
+  @@unique([aracId, kategori])
+}
+
+model AracFirma {
+  id          Int      @id @default(autoincrement())
+  aracId      Int
+  tur         String
+  firmaAdi    String?
+  telefon     String?
+  kayitTarihi DateTime @default(now())
+  arac        Arac     @relation(fields: [aracId], references: [id], onDelete: Cascade)
+
+  @@index([aracId, tur])
+}
+
+model Hasar {
+  id                 Int      @id @default(autoincrement())
+  aracId             Int
+  tur                String
+  bolge              String
+  konum              String
+  tarih              DateTime
+  aciklama           String
+  gorunumAcisi       Float
+  gorunumToleransi   Float    @default(40)
+  gorunumBaslangicKare Int?
+  gorunumBitisKare     Int?
+  yuzdeX             Float
+  yuzdeY             Float
+  olusturulmaTarihi  DateTime @default(now())
+  guncellenmeTarihi  DateTime @updatedAt
+  arac               Arac     @relation(fields: [aracId], references: [id], onDelete: Cascade)
+}
+
+model AracBelgesi {
+  id             Int      @id @default(autoincrement())
+  aracId         Int
+  tur            String
+  baslik         String?
+  aciklama       String?
+  dosyaAdi       String
+  dosyaYolu      String
+  mimeType       String
+  boyut          Int
+  yuklenmeTarihi DateTime @default(now())
+  arac           Arac     @relation(fields: [aracId], references: [id], onDelete: Cascade)
+
+  @@index([aracId])
+}
