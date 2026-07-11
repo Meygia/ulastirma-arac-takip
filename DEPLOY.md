@@ -28,21 +28,28 @@ Yerel `dev.db` Vercel'de çalışmaz. Ücretsiz Turso kullanın:
 2. Yeni database oluşturun
 3. Token alın
 
-Vercel ortam değişkenleri:
+Vercel ortam değişkenleri (Settings → Environment Variables):
 
 | Değişken | Örnek |
 |----------|--------|
 | `DATABASE_URL` | `libsql://your-db-name-org.turso.io` |
 | `TURSO_AUTH_TOKEN` | Turso dashboard token |
 
-Yerel veriyi taşımak için (isteğe bağlı):
+**Önemli:** Value kutusuna tırnak koymayın. Key = isim, Value = değer.
+
+Migration'lar Vercel build'inde değil, bilgisayarınızdan **bir kez** çalıştırılır:
 
 ```powershell
-# Turso CLI kuruluysa
-turso db shell your-db-name < schema.sql
+cd C:\Users\Batuh\ulastirma-arac-takip
+
+# Geçici .env.turso dosyası oluşturun (Git'e gitmez):
+# DATABASE_URL=libsql://....turso.io
+# TURSO_AUTH_TOKEN=eyJ...
+
+npm run db:deploy:turso
 ```
 
-Prisma migration'lar build sırasında Turso'ya HTTP ile uygulanır (`scripts/prebuild-db.mjs`). Yerelde `file:./dev.db` için `prisma migrate deploy` çalışır.
+Başarılı olunca `Turso migrations complete.` yazar. Sonra Vercel'de Deploy/Redeploy yapın.
 
 ## 3. Vercel deploy
 
