@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { PrismaLibSql } from "@prisma/adapter-libsql";
+import { PrismaLibSql as PrismaLibSqlNode } from "@prisma/adapter-libsql";
+import { PrismaLibSql as PrismaLibSqlWeb } from "@prisma/adapter-libsql/web";
 
 const PRISMA_SCHEMA_VERSION = 9;
 
@@ -8,10 +9,27 @@ const globalForPrisma = globalThis as unknown as {
   prismaSchemaVersion?: number;
 };
 
+function normalizeEnv(value: string | undefined) {
+  return value?.trim().replace(/^["']|["']$/g, "") ?? "";
+}
+
+function isRemoteDatabase(url: string) {
+  return (
+    url.startsWith("libsql://") ||
+    url.startsWith("https://") ||
+    url.includes("turso.io")
+  );
+}
+
 function createPrismaClient() {
-  const adapter = new PrismaLibSql({
-    url: process.env.DATABASE_URL ?? "file:./dev.db",
-    authToken: process.env.TURSO_AUTH_TOKEN,
+  const url = normalizeEnv(process.env.DATABASE_URL) || "file:./dev.db";
+  const authToken = normalizeEnv(process.env.TURSO_AUTH_TOKEN) || undefined;
+  const remote = isRemoteDatabase(url);
+
+  const Adapter = remote ? PrismaLibSqlWeb : PrismaLibSqlNode;
+  const adapter = new Adapter({
+    url,
+    authToken,
   });
 
   return new PrismaClient({ adapter });
