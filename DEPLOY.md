@@ -88,8 +88,8 @@ Vercel Environment Variables:
 | `KM_SENKRON_SIFRE` | Kaynak sitenin yönetici şifresi |
 
 Senkron:
-- Ana sayfa her açıldığında (en fazla ~90 sn'de bir)
-- `/api/km-senkron` cron (10 dk) — Hobby planda sınırlı olabilir
+- Ana sayfa / araç açılınca (en fazla ~90 sn'de bir)
+- `/api/km-senkron` günlük cron (Hobby planda daha sık cron deploy'u bozar)
 
 Plakalar boşluksuz karşılaştırılır (`06 FRU 846` = `06FRU846`).
 
