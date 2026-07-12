@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
 
   if (
     pathname.startsWith("/giris") ||
+    pathname.startsWith("/api/saglik") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
     pathname.includes(".")

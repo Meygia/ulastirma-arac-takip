@@ -8,6 +8,8 @@ export async function GET() {
   const databaseUrl = process.env.DATABASE_URL?.trim() ?? "";
   const hasUrl = databaseUrl.length > 0;
   const hasToken = (process.env.TURSO_AUTH_TOKEN?.trim() ?? "").length > 0;
+  const hasAuthSecret = (process.env.AUTH_SECRET?.trim() ?? "").length > 0;
+  const hasAuthUsers = (process.env.AUTH_USERS?.trim() ?? "").length > 0;
   const remote = databaseUrl.startsWith("libsql://") || databaseUrl.includes("turso.io");
 
   try {
@@ -19,6 +21,8 @@ export async function GET() {
       remote,
       hasUrl,
       hasToken,
+      hasAuthSecret,
+      hasAuthUsers,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Bilinmeyen hata";
@@ -29,6 +33,8 @@ export async function GET() {
         remote,
         hasUrl,
         hasToken,
+        hasAuthSecret,
+        hasAuthUsers,
         error: message,
       },
       { status: 500 },
