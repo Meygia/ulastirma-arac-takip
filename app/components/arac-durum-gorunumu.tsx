@@ -418,6 +418,8 @@ export default function AracDurumGorunumu({
         const yeniHasar = await hasarEkle(aracId, kayitFormu);
         setHasarlar((onceki) => [yeniHasar, ...onceki]);
         setIsaretPopup(null);
+        setIsaretlemeModu(false);
+        setHoverHasar(null);
         setYenilemeAnahtari((onceki) => onceki + 1);
       } catch (error) {
         setPopupHata(

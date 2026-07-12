@@ -1,4 +1,4 @@
-export type AracFirmaTuru = "bakim" | "fren_balata";
+export type AracFirmaTuru = "bakim" | "lastik" | "fren_balata";
 
 export type FirmaFormVerisi = {
   firmaAdi: string;
@@ -16,6 +16,7 @@ export type AracFirmaKaydi = {
 
 export const ARAC_FIRMA_ETIKETLERI: Record<AracFirmaTuru, string> = {
   bakim: "Bakım için aranan firma",
+  lastik: "Lastik için aranan firma",
   fren_balata: "Fren için aranan firma",
 };
 
@@ -33,7 +34,7 @@ export function firmaKaydiVarMi(
 }
 
 export function aracFirmaTuruGecerliMi(value: string): value is AracFirmaTuru {
-  return value === "bakim" || value === "fren_balata";
+  return value === "bakim" || value === "lastik" || value === "fren_balata";
 }
 
 export function firmaKaydiOzeti(kayit: AracFirmaKaydi) {

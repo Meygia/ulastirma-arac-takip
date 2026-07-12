@@ -510,7 +510,10 @@ export default function AracBilgiSekmeleri({
     }
 
     if (aktifSekme === "lastik") {
-      return kayitSekmesiGorunumu("lastik");
+      return kayitSekmesiGorunumu(
+        "lastik",
+        <ArananFirmaPanel aracId={aracId} tur="lastik" />,
+      );
     }
 
     if (aktifSekme === "fren_balata") {
@@ -529,6 +532,12 @@ export default function AracBilgiSekmeleri({
         {arac && aktifSekme === "bakim" ? (
           <div className="mb-4">
             <ArananFirmaPanel aracId={aracId} tur="bakim" />
+          </div>
+        ) : null}
+
+        {arac && aktifSekme === "lastik" ? (
+          <div className="mb-4">
+            <ArananFirmaPanel aracId={aracId} tur="lastik" />
           </div>
         ) : null}
 

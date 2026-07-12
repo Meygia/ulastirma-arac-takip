@@ -75,6 +75,18 @@ Vercel Environment Variables:
 
 Format: `kullanici:sifre` çiftleri virgülle ayrılır. Değişiklikten sonra Redeploy gerekir.
 
+## 5. Kilometre senkronu (hazır, pasif)
+
+Dış siteden canlı km aktarımı iskeleti kodda var; **kapalı** bırakıldı.
+
+| Değişken | Varsayılan | Açıklama |
+|----------|------------|----------|
+| `KM_SENKRON_AKTIF` | `false` | `true` yapılmadan hiçbir şey çalışmaz |
+| `KM_SENKRON_URL` | — | Kaynak API/link (sonra verilecek) |
+| `KM_SENKRON_API_KEY` | — | Gerekirse |
+
+Link gelince `KM_SENKRON_URL` doldurulup `KM_SENKRON_AKTIF=true` yapılacak.
+
 ## Notlar
 
 - `.env` dosyası Git'e gitmez (güvenlik).
