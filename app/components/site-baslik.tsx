@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cikisYap, mevcutKullanici } from "@/app/actions/auth-actions";
 
 type SiteBaslikProps = {
   aktif?: "ana" | "yonetim";
 };
 
-export default function SiteBaslik({ aktif = "ana" }: SiteBaslikProps) {
+export default async function SiteBaslik({ aktif = "ana" }: SiteBaslikProps) {
+  const kullanici = await mevcutKullanici();
+
   return (
     <header className="border-b border-zinc-800 bg-zinc-950">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
@@ -49,6 +52,19 @@ export default function SiteBaslik({ aktif = "ana" }: SiteBaslikProps) {
               Araç yönetimi
             </Link>
           )}
+          {kullanici ? (
+            <span className="rounded-full border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-zinc-300">
+              {kullanici}
+            </span>
+          ) : null}
+          <form action={cikisYap}>
+            <button
+              type="submit"
+              className="rounded-full border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-700"
+            >
+              Çıkış
+            </button>
+          </form>
           <span className="rounded-full bg-emerald-950 px-4 py-2 text-sm text-emerald-400 ring-1 ring-emerald-800">
             Filo paneli aktif
           </span>

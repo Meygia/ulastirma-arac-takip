@@ -64,8 +64,19 @@ vercel --prod
 
 Alternatif: [vercel.com/new](https://vercel.com/new) → GitHub reposunu bağla → Environment Variables ekle → Deploy.
 
+## 4. Kullanıcı girişi
+
+Vercel Environment Variables:
+
+| Değişken | Örnek |
+|----------|--------|
+| `AUTH_SECRET` | Uzun rastgele metin |
+| `AUTH_USERS` | `admin:Sifre1,batuhan:Sifre2` |
+
+Format: `kullanici:sifre` çiftleri virgülle ayrılır. Değişiklikten sonra Redeploy gerekir.
+
 ## Notlar
 
 - `.env` dosyası Git'e gitmez (güvenlik).
 - Yüklenen belgeler (`public/uploads/`) Vercel'de kalıcı değildir; ileride Vercel Blob veya S3 gerekir.
-- Build komutu: `prisma generate && prisma migrate deploy && next build`
+- Build komutu: `prisma generate && next build`
