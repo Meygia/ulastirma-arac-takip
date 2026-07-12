@@ -9,19 +9,10 @@ const LOGO_SURESI_MS = 15_000;
 
 type Boyut = "giris" | "baslik";
 
-const BOYUTLAR: Record<
-  Boyut,
-  { kutu: string; videoScale: string }
-> = {
-  giris: {
-    kutu: "h-24 w-24 md:h-28 md:w-28",
-    // Lastiğin dışını kırpmak için hafif yakınlaştırma
-    videoScale: "scale-[1.28]",
-  },
-  baslik: {
-    kutu: "h-[4.5rem] w-[4.5rem] md:h-20 md:w-20",
-    videoScale: "scale-[1.28]",
-  },
+/** Aynı daire kutusu — video ve logo birebir aynı boyutta */
+const BOYUTLAR: Record<Boyut, string> = {
+  giris: "h-28 w-28 md:h-32 md:w-32",
+  baslik: "h-20 w-20 md:h-24 md:w-24",
 };
 
 type KurumLogoDongusuProps = {
@@ -36,7 +27,7 @@ export default function KurumLogoDongusu({
   const [asamasi, setAsamasi] = useState<"video" | "logo">("video");
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const logoZamanlayiciRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const stil = BOYUTLAR[boyut];
+  const kutu = BOYUTLAR[boyut];
 
   useEffect(() => {
     return () => {
@@ -56,7 +47,6 @@ export default function KurumLogoDongusu({
     const oynat = video.play();
     if (oynat) {
       void oynat.catch(() => {
-        // Tarayıcı otomatik oynatmayı engellerse logoya düş
         setAsamasi("logo");
       });
     }
@@ -75,14 +65,23 @@ export default function KurumLogoDongusu({
 
   return (
     <div
-      className={`relative shrink-0 overflow-hidden rounded-full bg-zinc-950 ring-1 ring-zinc-700/80 ${stil.kutu} ${className}`}
+      className={`relative aspect-square shrink-0 overflow-hidden rounded-full bg-zinc-950 ${kutu} ${className}`}
+      style={{
+        clipPath: "circle(50% at 50% 50%)",
+        WebkitClipPath: "circle(50% at 50% 50%)",
+      }}
       aria-label="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
     >
+      {/* Lastik dışını kırp: güçlü yakınlaştırma + daire maske */}
       <video
         ref={videoRef}
-        className={`absolute inset-0 h-full w-full object-cover ${stil.videoScale} transition-opacity duration-300 ${
+        className={`absolute left-1/2 top-1/2 h-full w-full max-w-none object-cover transition-opacity duration-300 ${
           asamasi === "video" ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+        style={{
+          transform: "translate(-50%, -50%) scale(1.85)",
+          transformOrigin: "center center",
+        }}
         src={VIDEO_SRC}
         muted
         playsInline
@@ -93,11 +92,11 @@ export default function KurumLogoDongusu({
       <Image
         src={LOGO_SRC}
         alt="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
-        width={112}
-        height={112}
+        width={128}
+        height={128}
         priority
         unoptimized
-        className={`absolute inset-0 h-full w-full object-contain p-1.5 transition-opacity duration-300 ${
+        className={`absolute inset-0 h-full w-full object-contain p-[6%] transition-opacity duration-300 ${
           asamasi === "logo" ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
