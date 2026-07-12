@@ -1,5 +1,6 @@
 import AracSekmeleri from "@/app/components/arac-sekmeleri";
 import SiteBaslik from "@/app/components/site-baslik";
+import { kilometreleriSenkronizeEt } from "@/app/actions/km-senkron-actions";
 import {
   araclariTanimliMarkalarlaGrupla,
   aracKayitlariniSirala,
@@ -8,6 +9,9 @@ import {
 import { getPrisma } from "@/app/lib/prisma";
 
 export default async function Home() {
+  // Dış kaynaktan güncel Giriş KM değerlerini çek (throttle'lı)
+  await kilometreleriSenkronizeEt();
+
   const araclar = await getPrisma().arac.findMany();
 
   const aracKayitlari = aracKayitlariniSirala(

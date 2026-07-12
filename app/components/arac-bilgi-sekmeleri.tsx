@@ -11,6 +11,7 @@ import {
   aracLastikGuncelle,
   aracParcaGuncelle,
 } from "@/app/actions/arac-bilgi-actions";
+import { kilometreleriSenkronizeEt } from "@/app/actions/km-senkron-actions";
 import ArananFirmaPanel from "@/app/components/aranan-firma-panel";
 import GecmisListesi from "@/app/components/gecmis-listesi";
 import {
@@ -195,6 +196,7 @@ export default function AracBilgiSekmeleri({
       setHata("");
 
       try {
+        await kilometreleriSenkronizeEt();
         const detay = await aracDetayGetir(aracId);
         if (iptal) return;
 
@@ -558,6 +560,10 @@ export default function AracBilgiSekmeleri({
                 onChange={(event) => setKilometre(event.target.value)}
                 className={inputSinifi}
               />
+              <span className="text-xs text-zinc-500">
+                Değer, araç takip çizelgesindeki Giriş KM ile otomatik
+                eşitlenir.
+              </span>
             </label>
           ) : null}
 

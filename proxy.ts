@@ -8,6 +8,7 @@ export async function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/giris") ||
     pathname.startsWith("/api/saglik") ||
+    pathname.startsWith("/api/km-senkron") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
     pathname.includes(".")

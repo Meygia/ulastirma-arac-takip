@@ -75,17 +75,23 @@ Vercel Environment Variables:
 
 Format: `kullanici:sifre` çiftleri virgülle ayrılır. Değişiklikten sonra Redeploy gerekir.
 
-## 5. Kilometre senkronu (hazır, pasif)
+## 5. Kilometre senkronu (cibmutfak)
 
-Dış siteden canlı km aktarımı iskeleti kodda var; **kapalı** bırakıldı.
+Kaynak: `https://arac.cibmutfak.com` → `vehicles.list` API'sindeki `currentKm` (Giriş KM).
 
-| Değişken | Varsayılan | Açıklama |
-|----------|------------|----------|
-| `KM_SENKRON_AKTIF` | `false` | `true` yapılmadan hiçbir şey çalışmaz |
-| `KM_SENKRON_URL` | — | Kaynak API/link (sonra verilecek) |
-| `KM_SENKRON_API_KEY` | — | Gerekirse |
+Vercel Environment Variables:
 
-Link gelince `KM_SENKRON_URL` doldurulup `KM_SENKRON_AKTIF=true` yapılacak.
+| Değişken | Değer |
+|----------|--------|
+| `KM_SENKRON_AKTIF` | `true` |
+| `KM_SENKRON_URL` | `https://arac.cibmutfak.com` |
+| `KM_SENKRON_SIFRE` | Kaynak sitenin yönetici şifresi |
+
+Senkron:
+- Ana sayfa her açıldığında (en fazla ~90 sn'de bir)
+- `/api/km-senkron` cron (10 dk) — Hobby planda sınırlı olabilir
+
+Plakalar boşluksuz karşılaştırılır (`06 FRU 846` = `06FRU846`).
 
 ## Notlar
 
