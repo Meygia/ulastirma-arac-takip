@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useActionState } from "react";
 import { girisYap, type GirisSonucu } from "@/app/actions/auth-actions";
+import KurumLogoDongusu from "@/app/components/kurum-logo-dongusu";
 
 const baslangic: GirisSonucu | null = null;
 
@@ -61,15 +61,7 @@ export function GirisSayfaIcerik() {
     <div className="flex min-h-full flex-1 items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
-          <Image
-            src="/iletisim-baskanligi-amblem.png"
-            alt="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
-            width={88}
-            height={88}
-            className="h-20 w-20 object-contain"
-            priority
-            unoptimized
-          />
+          <KurumLogoDongusu boyut="giris" />
           <h1 className="mt-5 text-xl text-zinc-100">
             Destek Hizmetleri Daire Başkanlığı
           </h1>

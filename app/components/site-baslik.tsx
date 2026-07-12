@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { cikisYap, mevcutKullanici } from "@/app/actions/auth-actions";
+import KurumLogoDongusu from "@/app/components/kurum-logo-dongusu";
 
 type SiteBaslikProps = {
   aktif?: "ana" | "yonetim";
@@ -14,15 +14,7 @@ export default async function SiteBaslik({ aktif = "ana" }: SiteBaslikProps) {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
         <div className="flex min-w-0 flex-wrap items-center gap-5 md:gap-6">
           <Link href="/" className="shrink-0" aria-label="Ana sayfa">
-            <Image
-              src="/iletisim-baskanligi-amblem.png"
-              alt="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
-              width={96}
-              height={96}
-              className="h-[4.5rem] w-[4.5rem] object-contain md:h-20 md:w-20"
-              priority
-              unoptimized
-            />
+            <KurumLogoDongusu boyut="baslik" />
           </Link>
           <div className="min-w-0 border-l border-zinc-800 pl-5 md:pl-6">
             <h1 className="text-base font-medium leading-snug text-zinc-100 md:text-lg lg:text-xl">
