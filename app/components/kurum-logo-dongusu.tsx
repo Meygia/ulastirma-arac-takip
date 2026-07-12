@@ -12,8 +12,8 @@ type Boyut = "giris" | "baslik";
 
 /** Aynı daire kutusu — video ve logo birebir aynı boyutta */
 const BOYUTLAR: Record<Boyut, string> = {
-  giris: "h-28 w-28 md:h-32 md:w-32",
-  baslik: "h-20 w-20 md:h-24 md:w-24",
+  giris: "h-36 w-36 md:h-44 md:w-44",
+  baslik: "h-28 w-28 md:h-32 md:w-32",
 };
 
 type KurumLogoDongusuProps = {
@@ -91,8 +91,8 @@ export default function KurumLogoDongusu({
         <Image
           src={LOGO_SRC}
           alt="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
-          width={128}
-          height={128}
+          width={256}
+          height={256}
           priority
           unoptimized
           className={`h-full w-full object-contain transition-opacity duration-300 ${
