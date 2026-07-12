@@ -61,8 +61,15 @@ async function imzala(payload: string) {
   return base64UrlEncode(imza);
 }
 
+function metniNormalizeEt(value: string) {
+  return value
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .normalize("NFC");
+}
+
 export function yetkiliKullanicilar(): Array<{ kullanici: string; sifre: string }> {
-  const ham = process.env.AUTH_USERS?.trim() ?? "";
+  const ham = metniNormalizeEt(process.env.AUTH_USERS ?? "");
   if (!ham) return [];
 
   return ham
@@ -73,19 +80,22 @@ export function yetkiliKullanicilar(): Array<{ kullanici: string; sifre: string 
       const ayirac = parca.indexOf(":");
       if (ayirac <= 0) return null;
       return {
-        kullanici: parca.slice(0, ayirac).trim(),
-        sifre: parca.slice(ayirac + 1).trim(),
+        kullanici: metniNormalizeEt(parca.slice(0, ayirac)),
+        sifre: metniNormalizeEt(parca.slice(ayirac + 1)),
       };
     })
     .filter((kayit): kayit is { kullanici: string; sifre: string } => Boolean(kayit));
 }
 
 export function kullaniciDogrula(kullanici: string, sifre: string) {
+  const girilenKullanici = metniNormalizeEt(kullanici);
+  const girilenSifre = metniNormalizeEt(sifre);
+
   const kayit = yetkiliKullanicilar().find((k) =>
-    guvenliEsit(k.kullanici, kullanici.trim()),
+    guvenliEsit(k.kullanici, girilenKullanici),
   );
   if (!kayit) return false;
-  return guvenliEsit(kayit.sifre, sifre);
+  return guvenliEsit(kayit.sifre, girilenSifre);
 }
 
 export async function oturumTokeniOlustur(kullanici: string) {
