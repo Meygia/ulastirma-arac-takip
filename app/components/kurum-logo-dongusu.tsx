@@ -72,34 +72,40 @@ export default function KurumLogoDongusu({
       }}
       aria-label="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
     >
-      {/* Lastik dışını kırp: güçlü yakınlaştırma + daire maske */}
-      <video
-        ref={videoRef}
-        className={`absolute left-1/2 top-1/2 h-full w-full max-w-none object-cover transition-opacity duration-300 ${
-          asamasi === "video" ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        style={{
-          transform: "translate(-50%, -50%) scale(1.85)",
-          transformOrigin: "center center",
-        }}
-        src={VIDEO_SRC}
-        muted
-        playsInline
-        preload="auto"
-        onEnded={videoBitti}
-      />
+      {/* Logo ile aynı absolute inset-0 kutusu — ortak merkez */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <video
+          ref={videoRef}
+          className={`h-full w-full object-cover transition-opacity duration-300 ${
+            asamasi === "video" ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
+          style={{
+            // Lastik dışını kırp; merkez logo ile aynı hizada
+            transform: "scale(1.85)",
+            transformOrigin: "center center",
+            objectPosition: "center center",
+          }}
+          src={VIDEO_SRC}
+          muted
+          playsInline
+          preload="auto"
+          onEnded={videoBitti}
+        />
+      </div>
 
-      <Image
-        src={LOGO_SRC}
-        alt="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
-        width={128}
-        height={128}
-        priority
-        unoptimized
-        className={`absolute inset-0 h-full w-full object-contain p-[6%] transition-opacity duration-300 ${
-          asamasi === "logo" ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-      />
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden p-[6%]">
+        <Image
+          src={LOGO_SRC}
+          alt="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
+          width={128}
+          height={128}
+          priority
+          unoptimized
+          className={`h-full w-full object-contain transition-opacity duration-300 ${
+            asamasi === "logo" ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
+        />
+      </div>
     </div>
   );
 }
