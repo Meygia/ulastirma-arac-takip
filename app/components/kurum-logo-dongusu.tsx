@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const VIDEO_SRC = "/intro.mp4";
+/** Cache bust — kırpılmış jant videosu */
+const VIDEO_SRC = "/intro.mp4?v=5";
 const LOGO_SRC = "/iletisim-baskanligi-amblem.png";
 const LOGO_SURESI_MS = 15_000;
 
@@ -72,19 +73,12 @@ export default function KurumLogoDongusu({
       }}
       aria-label="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
     >
-      {/* Logo ile aynı absolute inset-0 kutusu — ortak merkez */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden rounded-full">
         <video
           ref={videoRef}
-          className={`h-full w-full object-cover transition-opacity duration-300 ${
+          className={`h-full w-full object-cover object-center transition-opacity duration-300 ${
             asamasi === "video" ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
-          style={{
-            // Lastik dışını kırp; merkez logo ile aynı hizada
-            transform: "scale(1.85)",
-            transformOrigin: "center center",
-            objectPosition: "center center",
-          }}
           src={VIDEO_SRC}
           muted
           playsInline
@@ -93,7 +87,7 @@ export default function KurumLogoDongusu({
         />
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden p-[6%]">
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full p-[6%]">
         <Image
           src={LOGO_SRC}
           alt="T.C. Cumhurbaşkanlığı İletişim Başkanlığı"
