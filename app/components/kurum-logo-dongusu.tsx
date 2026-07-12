@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 /** Cache bust — kırpılmış jant videosu */
-const VIDEO_SRC = "/intro.mp4?v=5";
+const VIDEO_SRC = "/intro.mp4?v=6";
 const LOGO_SRC = "/iletisim-baskanligi-amblem.png";
 const LOGO_SURESI_MS = 15_000;
 
