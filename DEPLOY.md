@@ -93,8 +93,17 @@ Senkron:
 
 Plakalar boşluksuz karşılaştırılır (`06 FRU 846` = `06FRU846`).
 
+## 6. Araç belgeleri (Vercel Blob)
+
+Vercel sunucusunda yerel diske yazılamaz. Belge yükleme için Blob store gerekir:
+
+1. [Vercel Dashboard](https://vercel.com) → proje → **Storage** → **Blob** → Create
+2. Store'u projeye bağlayın; `BLOB_READ_WRITE_TOKEN` otomatik eklenir
+3. Redeploy
+
+Yerelde token yoksa dosyalar `public/uploads/` altına yazılır.
+
 ## Notlar
 
 - `.env` dosyası Git'e gitmez (güvenlik).
-- Yüklenen belgeler (`public/uploads/`) Vercel'de kalıcı değildir; ileride Vercel Blob veya S3 gerekir.
 - Build komutu: `prisma generate && next build`

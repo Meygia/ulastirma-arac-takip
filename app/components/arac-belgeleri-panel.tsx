@@ -118,16 +118,14 @@ export default function AracBelgeleriPanel({ aracId }: AracBelgeleriPanelProps) 
     formData.set("dosya", dosya);
 
     baslat(async () => {
-      try {
-        await belgeYukle(aracId, formData);
-        await listeyiYenile();
-        formuKapat();
-        setMesaj("Belge yüklendi.");
-      } catch (error) {
-        setHata(
-          error instanceof Error ? error.message : "Yükleme başarısız.",
-        );
+      const sonuc = await belgeYukle(aracId, formData);
+      if (!sonuc.ok) {
+        setHata(sonuc.mesaj);
+        return;
       }
+      await listeyiYenile();
+      formuKapat();
+      setMesaj(sonuc.mesaj ?? "Belge yüklendi.");
     });
   }
 
@@ -138,16 +136,14 @@ export default function AracBelgeleriPanel({ aracId }: AracBelgeleriPanelProps) 
     setMesaj("");
 
     baslat(async () => {
-      try {
-        await belgeGuncelle(aracId, duzenlenenBelgeId, form);
-        await listeyiYenile();
-        formuKapat();
-        setMesaj("Belge bilgisi güncellendi.");
-      } catch (error) {
-        setHata(
-          error instanceof Error ? error.message : "Güncelleme başarısız.",
-        );
+      const sonuc = await belgeGuncelle(aracId, duzenlenenBelgeId, form);
+      if (!sonuc.ok) {
+        setHata(sonuc.mesaj);
+        return;
       }
+      await listeyiYenile();
+      formuKapat();
+      setMesaj("Belge bilgisi güncellendi.");
     });
   }
 
@@ -156,17 +152,17 @@ export default function AracBelgeleriPanel({ aracId }: AracBelgeleriPanelProps) 
     setMesaj("");
 
     baslat(async () => {
-      try {
-        const silinen = await belgeSil(aracId, belge.id);
-        await listeyiYenile();
-        if (duzenlenenBelgeId === belge.id) {
-          formuKapat();
-        }
-        setMesaj("Belge silindi.");
-        geriAlGoster(silinen);
-      } catch (error) {
-        setHata(error instanceof Error ? error.message : "Silme başarısız.");
+      const sonuc = await belgeSil(aracId, belge.id);
+      if (!sonuc.ok) {
+        setHata(sonuc.mesaj);
+        return;
       }
+      await listeyiYenile();
+      if (duzenlenenBelgeId === belge.id) {
+        formuKapat();
+      }
+      setMesaj("Belge silindi.");
+      geriAlGoster(sonuc.kayit);
     });
   }
 
@@ -178,16 +174,14 @@ export default function AracBelgeleriPanel({ aracId }: AracBelgeleriPanelProps) 
     setMesaj("");
 
     baslat(async () => {
-      try {
-        await belgeGeriYukle(kayit);
-        await listeyiYenile();
-        geriAlTemizle();
-        setMesaj("Belge geri yüklendi.");
-      } catch (error) {
-        setHata(
-          error instanceof Error ? error.message : "Geri alma başarısız.",
-        );
+      const sonuc = await belgeGeriYukle(kayit);
+      if (!sonuc.ok) {
+        setHata(sonuc.mesaj);
+        return;
       }
+      await listeyiYenile();
+      geriAlTemizle();
+      setMesaj("Belge geri yüklendi.");
     });
   }
 
